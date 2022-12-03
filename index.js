@@ -6,6 +6,7 @@ import report from './commands/report.js';
 import server from './commands/server.js';
 import user from './commands/user.js';
 import deploy from './deploy.js';
+import alert from './commands/alert.js';
 dotenv.config();
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -38,7 +39,8 @@ const Listcommand = [
     server,
     user,
     ping,
-    report
+    report,
+    alert
 ]
 //add command
 client.commands = new Collection();
@@ -47,5 +49,11 @@ Listcommand.forEach((element) => {
 })
 //deply command
 await deploy(Listcommand);
+const channel = client.channels.cache.get('987718510924947526');
+if (channel) {
+    PrixtelAlert(channel);
+} else {
+    console.log('error chanel not fond')
+}
 // Log in to Discord with your client's token
 client.login(process.env.BOT_TOKEN);
