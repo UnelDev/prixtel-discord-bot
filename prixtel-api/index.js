@@ -6,6 +6,7 @@ export default class prixtelApi {
     browser;
     page;
     constructor() {
+        // this.browser = puppeteer.launch({ headless: false });
         this.browser = puppeteer.launch();
     }
     async Connect(email, password) {
@@ -15,16 +16,25 @@ export default class prixtelApi {
             return Array.from(document.querySelectorAll("#inputEmail"),
                 heading => heading.innerText.trim());
         });
-        if (inputEmail_value[0] = '') {
-            //is already connected
-            console.log('already connected');
-            return page;
-        }
         await page.type('#inputEmail', email);
         await page.type('#inputPassword', password);
         await page.click('.cta_btn');
         await page.waitForSelector('.my-consumption-area');
         this.page = page;
+        console.log('connected at prixtel');
+        return page;
+    }
+
+    async Refresh(page) {
+        const consumption_area_value = await page.evaluate(() => {
+            return Array.from(document.querySelectorAll(".my-consumption-area"),
+                heading => heading.innerText.trim());
+        });
+        if (typeof page == 'undefined' || consumption_area_value == '') {
+            page = await this.Connect(process.env.EMAIL, process.env.PASSWORD);
+        }
+        await page.reload();
+        await page.waitForSelector('.my-consumption-area');
         return page;
     }
 
@@ -36,6 +46,7 @@ export default class prixtelApi {
                 page = await this.Connect(process.env.EMAIL, process.env.PASSWORD);
             }
         }
+        page = await this.Refresh(page);
         const card_value = await page.evaluate(() => {
             return Array.from(document.querySelectorAll(".procedure-card_value "),
                 heading => heading.innerText.trim());
