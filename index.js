@@ -7,10 +7,13 @@ import server from './commands/server.js';
 import user from './commands/user.js';
 import deploy from './deploy.js';
 import alert from './commands/alert.js';
+import prixtelApi from './prixtel-api/index.js';
 dotenv.config();
+//create a new api
+process.api = new prixtelApi();
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
+process.client = client;
 // When the client is ready, run this code (only once)
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 client.once(Events.ClientReady, c => {
@@ -42,18 +45,23 @@ const Listcommand = [
     report,
     alert
 ]
+
+
+
+//starting
+console.clear();
+console.log('starrting');
 //add command
 client.commands = new Collection();
 Listcommand.forEach((element) => {
     client.commands.set(element.data.name, element);
 })
 //deply command
-await deploy(Listcommand);
-const channel = client.channels.cache.get('987718510924947526');
-if (channel) {
-    PrixtelAlert(channel);
-} else {
-    console.log('error chanel not fond')
-}
+const pending = [];
+//connected to api
+pending.push(process.api.Connect(process.env.EMAIL, process.env.PASSWORD));
+//deploy command
+pending.push(deploy(Listcommand));
+await Promise.all(pending);
 // Log in to Discord with your client's token
 client.login(process.env.BOT_TOKEN);
