@@ -7,7 +7,15 @@ export default class prixtelApi {
     page;
     constructor() {
         // this.browser = puppeteer.launch({ headless: false });
-        this.browser = puppeteer.launch();
+        if (process.env.ISDEV == 'false') {
+            this.browser = puppeteer.launch({
+                headless: true,
+                executablePath: '/usr/bin/chromium-browser',
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
+            });
+        } else {
+            this.browser = puppeteer.launch();
+        }
     }
     async Connect(email, password) {
         const page = await (await this.browser).newPage();
