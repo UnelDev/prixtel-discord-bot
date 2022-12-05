@@ -6,7 +6,6 @@ export default class prixtelApi {
     browser;
     page;
     constructor() {
-        // this.browser = puppeteer.launch({ headless: false });
         if (process.env.ISDEV == 'false') {
             this.browser = puppeteer.launch({
                 headless: true,
@@ -14,6 +13,7 @@ export default class prixtelApi {
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
         } else {
+            // this.browser = puppeteer.launch({ headless: false });
             this.browser = puppeteer.launch();
         }
     }

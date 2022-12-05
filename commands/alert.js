@@ -19,9 +19,9 @@ export default {
             option.setName("role")
                 .setDescription("role qui sera ping, lors d'un raport")),
     async execute(interaction) {
-        console.log(interaction.options._hoistedOptions);
         let alertChanel;
         let alert;
+        let mention;
         interaction.options._hoistedOptions.forEach(element => {
             if (element.name == 'alert') {
                 alert = element;
@@ -29,8 +29,11 @@ export default {
             if (element.name == 'alert_chanel') {
                 alertChanel = element;
             }
+            if (element.name.startsWith('role')) {
+                mention = element.role.name;
+            }
         });
-        await interaction.reply('Pong! :ping_pong:');
-        PrixtelAlert(alertChanel.value, 5000, alert.value)
+        PrixtelAlert(alertChanel.value, alert.value, mention, 900000)
+        await interaction.reply('alert bien prise en compte');
     },
 };

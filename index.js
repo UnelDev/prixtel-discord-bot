@@ -64,4 +64,8 @@ pending.push(process.api.Connect(process.env.EMAIL, process.env.PASSWORD));
 pending.push(deploy(Listcommand));
 await Promise.all(pending);
 // Log in to Discord with your client's token
-client.login(process.env.BOT_TOKEN);
+if (process.env.ISDEV == 'true') {
+    client.login(process.env.BOT_DEV_TOKEN);
+} else {
+    client.login(process.env.BOT_TOKEN);
+}
