@@ -14,8 +14,6 @@ async function PrixtelAlert(channelid, alert, role, timer) {
             channel.send(role + ' un palier vien d\'etre déclancher vous avez consomé plus de' + alert + 'Go depuis le ' + initialTime.toLocaleDateString('fr-FR'));
             initial = newData;
             initialTime = new Date();
-        } else {
-            channel.send('pug' + initial + '<=' + newData);
         }
     }, timer);
 }
