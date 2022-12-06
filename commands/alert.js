@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import PrixtelAlert from '../prixtel-api/sendAlert.js';
+// import PrixtelAlert from '../prixtel-api/sendAlert.js';
 export default {
     data: new SlashCommandBuilder()
         .setName('alert')
@@ -18,7 +18,7 @@ export default {
         .addRoleOption(option =>
             option.setName("role")
                 .setDescription("role qui sera ping, lors d'un raport")),
-    async execute(interaction) {
+    async execute(interaction, alertClass) {
         let alertChanel;
         let alert;
         let mention;
@@ -33,7 +33,7 @@ export default {
                 mention = element.role.name;
             }
         });
-        PrixtelAlert(alertChanel.value, alert.value, mention, 900000)
+        alertClass.alert(alertChanel.value, alert.value, mention, 900000);
         await interaction.reply('alert bien prise en compte');
     },
 };
