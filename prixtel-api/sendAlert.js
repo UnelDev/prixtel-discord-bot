@@ -32,7 +32,6 @@ export default class Alert {
         return text;
     }
     async save() {
-        console.log(this.listAlert);
         // use absolut path for 'save'
         const saveDir = path.resolve('./save');
 
@@ -83,7 +82,44 @@ class alertComp {
         this.initialTime = initialTime ?? new Date;
     }
 
+    saveData(date, DataConsumme) {
+        const saveDir = path.resolve('./save');
+        fs.readFile(path.resolve(saveDir, 'saveData.json'), 'utf8', (err, content) => {
+            let data = [];
+            if (err) {
+                console.log('no save detected');
+            } else {
+                data = JSON.parse(content);
+                if (!Array.isArray(data)) {
+                    console.log('/!\\ file corupt!!!');
+                }
+            }
 
+            data.push([date, DataConsumme]);
+
+            // use absolut path for 'save'
+
+            // verify if 'save' exist and create it if dosn't exist
+            fs.access(saveDir, error => {
+                if (error) {
+                    // the directory dosn't exist
+                    fs.mkdir(saveDir, err => {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                }
+                //write 'alertSave.json'
+                fs.writeFile(path.resolve(saveDir, 'saveData.json'), JSON.stringify(data), err => {
+                    if (err) {
+                        throw err;
+                    }
+                });
+
+            });
+
+        });
+    }
     async fetch(create, remove) {
         const channel = await process.client.channels.cache.get(this.channelid);
         if (typeof timer != 'number') {
@@ -98,6 +134,7 @@ class alertComp {
                 create(this.channelid, this.alert, this.PingRole, this.timer);
                 remove(this.id);
             }
+            this.saveData(new Date, newData);
         }, this.timer);
     }
 }

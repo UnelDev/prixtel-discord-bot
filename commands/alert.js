@@ -33,7 +33,7 @@ export default {
                 mention = element.role.name;
             }
         });
-        alertClass.alert(alertChanel.value, alert.value, mention, 900000);
+        alertClass.alert(alertChanel.value, alert.value, mention, 10000);
         await interaction.reply('alert bien prise en compte');
     },
 };
