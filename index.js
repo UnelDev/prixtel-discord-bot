@@ -2,6 +2,7 @@
 import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
 import alert from './commands/alert.js';
+import listAlert from './commands/listAlert.js';
 import ping from './commands/ping.js';
 import report from './commands/report.js';
 import server from './commands/server.js';
@@ -37,8 +38,8 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 
     try {
-        if (command.data.name == 'alert') {
-            await command.execute(interaction, alertClass)
+        if (command.data.name == 'alert' || command.data.name == 'listalert') {
+            await command.execute(interaction, alertClass);
         } else {
             await command.execute(interaction);
         }
@@ -53,7 +54,8 @@ const Listcommand = [
     user,
     ping,
     report,
-    alert
+    alert,
+    listAlert
 ]
 
 

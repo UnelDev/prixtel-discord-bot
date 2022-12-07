@@ -20,6 +20,17 @@ export default class Alert {
         this.listAlert.splice(id, 1);
         this.save();
     }
+    listAlertObejct() {
+        let text = 'voici les alerte active : \n';
+        this.listAlert.forEach((Element, i) => {
+            if (Element.role) {
+                text += ('  alerte n°' + i + ': ping les utilisateur avec le role ' + Element.role + ' dans le chanel ' + Element.channel + ' tout les ' + Element.alert + 'Go\n');
+            } else {
+                text += ('  alerte n°' + i + ': envoie un mesage dans le chanel ' + Element.channel + ' tout les ' + Element.alert + 'Go\n');
+            }
+        });
+        return text;
+    }
     async save() {
         console.log(this.listAlert);
         // use absolut path for 'save'
@@ -69,17 +80,6 @@ class alertComp {
         this.timer = (typeof timer != 'number') ? 5000 : timer;
         this.id = id;
         this.initial = initial;
-        // if (typeof initial != 'undefined') {
-        //     this.initial = initial;
-        // } else {
-        //     console.log('is undefined');
-        //     process.api.GetDataConsumme().then((result) => {
-        //         console.log('1');
-        //         this.initial = result;
-        //         resolve();
-        //     });
-        //     console.log(this.initial);
-        // }
         this.initialTime = initialTime ?? new Date;
     }
 
