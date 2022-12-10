@@ -76,7 +76,7 @@ class alertComp {
         this.channel = channelid;
         this.alert = alert;
         this.PingRole = role;
-        this.timer = (typeof timer != 'number') ? 5000 : timer;
+        this.timer = (typeof timer != 'number') ? 900000 : timer;
         this.id = id;
         this.initial = initial;
         this.initialTime = initialTime ?? new Date;
@@ -122,7 +122,7 @@ class alertComp {
     async fetch(create, remove) {
         const channel = await process.client.channels.cache.get(this.channelid);
         if (typeof timer != 'number') {
-            this.timer = 5000;
+            this.timer = 900000;
         }
         this.initial = this.initial.replace(' Go', '');
         setInterval(async () => {
