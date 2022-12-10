@@ -129,7 +129,11 @@ class alertComp {
             let newData = await process.api.GetDataConsumme();
             newData = newData.replace(' Go', '');
             if (parseFloat(this.initial) + parseFloat(this.alert) <= newData) {
-                channel.send(this.PingRole + ' un palier vien d\'etre déclancher vous avez consomé plus de' + this.alert + 'Go depuis le ' + initialTime.toLocaleDateString('fr-FR'));
+                try {
+                    channel.send(this.PingRole + ' un palier vien d\'etre déclancher vous avez consomé plus de' + this.alert + 'Go depuis le ' + initialTime.toLocaleDateString('fr-FR'));
+                } catch (error) {
+                    console.log('error in fetch sending: ' + error)
+                }
                 create(this.channelid, this.alert, this.PingRole, this.timer);
                 remove(this.id);
             }
