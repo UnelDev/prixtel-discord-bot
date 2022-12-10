@@ -83,6 +83,7 @@ class alertComp {
     }
 
     saveData(date, DataConsumme) {
+        // use absolut path for 'save'
         const saveDir = path.resolve('./save');
         fs.readFile(path.resolve(saveDir, 'saveData.json'), 'utf8', (err, content) => {
             let data = [];
@@ -97,7 +98,6 @@ class alertComp {
 
             data.push([date, DataConsumme]);
 
-            // use absolut path for 'save'
 
             // verify if 'save' exist and create it if dosn't exist
             fs.access(saveDir, error => {
@@ -115,7 +115,6 @@ class alertComp {
                         throw err;
                     }
                 });
-
             });
 
         });

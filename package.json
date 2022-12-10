@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/UnelDev/prixtel-discord-bot#readme",
   "dependencies": {
+    "chartjs-to-image": "^1.1.0",
     "discord.js": "^14.7.0",
     "dotenv": "^16.0.3",
     "puppeteer": "^19.3.0"
