@@ -24,14 +24,21 @@ export default {
             .setTimestamp()
             .setFooter({ text: 'ces donée peut être perimé' });
         await waitImage;
-        exampleEmbed.setImage('attachment://image.png');
-        await interaction.reply({
-            embeds: [exampleEmbed],
-            files: [{
-                attachment: path.resolve('./save/save.png'),
-                name: 'image.png'
-            }]
-        });
+        if (waitImage == 'save') {
+            exampleEmbed.setImage('attachment://image.png');
+            await interaction.reply({
+                embeds: [exampleEmbed],
+                files: [{
+                    attachment: path.resolve('./save/save.png'),
+                    name: 'image.png'
+                }]
+            });
+        } else {
+            await interaction.reply({
+                embeds: [exampleEmbed]
+            });
+        }
+
     },
 };
 async function draw() {
