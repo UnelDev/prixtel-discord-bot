@@ -25,12 +25,12 @@ export default {
             .setFooter({ text: 'ces donée peut être perimé' });
         await waitImage;
         if (waitImage == 'save') {
-            exampleEmbed.setImage('attachment://image.png');
+            exampleEmbed.setImage('attachment://save.png');
             await interaction.reply({
                 embeds: [exampleEmbed],
                 files: [{
                     attachment: path.resolve('./save/save.png'),
-                    name: 'image.png'
+                    name: 'save.png'
                 }]
             });
         } else {

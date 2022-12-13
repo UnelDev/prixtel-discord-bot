@@ -13,8 +13,8 @@ export default class prixtelApi {
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
         } else {
-            this.browser = puppeteer.launch({ headless: false });
-            // this.browser = puppeteer.launch();
+            // this.browser = puppeteer.launch({ headless: false });
+            this.browser = puppeteer.launch();
         }
     }
     async Connect(email, password) {
@@ -27,6 +27,9 @@ export default class prixtelApi {
         if (inputEmail_value != '') {
             return page;
         }
+        if (!inputEmail_value) {
+            console.log('error with api, #inputEmail is nothing')
+        }
         await page.type('#inputEmail', email);
         await page.type('#inputPassword', password);
         await page.click('.cta_btn');
@@ -38,13 +41,13 @@ export default class prixtelApi {
 
     async Refresh(page) {
         let consumption_area_value = ' ';
-        if (typeof page != 'undefined') {
+        if (page) {
             consumption_area_value = await page.evaluate(() => {
                 return Array.from(document.querySelectorAll(".my-consumption-area"),
                     heading => heading.innerText.trim());
             });
         }
-        if (typeof page == 'undefined' || consumption_area_value == '') {
+        if (!page || consumption_area_value == '') {
             page = await this.Connect(process.env.EMAIL, process.env.PASSWORD);
         } else {
             console.log('refresh');
@@ -55,8 +58,8 @@ export default class prixtelApi {
     }
 
     async GetDataUsage(page) {
-        if (typeof page == 'undefined') {
-            if (typeof this.page != 'undefined') {
+        if (!page) {
+            if (this.page) {
                 page = this.page;
             } else {
                 page = await this.Connect(process.env.EMAIL, process.env.PASSWORD);
