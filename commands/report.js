@@ -68,11 +68,12 @@ async function draw() {
 
             const chart = new ChartJsImage();
             chart.setConfig({
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: name,
                     datasets: [
                         {
+                            label: 'cosomation de donée',
                             data: value
                         }
                     ]
