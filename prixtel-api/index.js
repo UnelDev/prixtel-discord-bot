@@ -23,11 +23,12 @@ export default class prixtelApi {
     async Connect(email, password) {
         const page = await (await this.browser).newPage();
         await page.goto('https://espaceclient.prixtel.com/connexion');
+        await page.waitForSelector('#inputEmail');
         const inputEmail_value = await page.evaluate(() => {
             return Array.from(document.querySelectorAll("#inputEmail"),
                 heading => heading.innerText.trim());
         });
-        if (inputEmail_value != '') {
+        if (inputEmail_value == '' || inputEmail_value == []) {
             return page;
         }
         if (!inputEmail_value) {
@@ -79,23 +80,21 @@ export default class prixtelApi {
     }
     async disconnect(page) {
         if (page) {
-            await page.click('[class= "navbar-toggler"]');
-            await sleep(300);
-            await page.waitForSelector('[class="nav-link logout-link"]');
-            await page.click('[class="nav-link logout-link"]');
-        } else {
-            const page = await (await this.browser).newPage();
-            await page.goto('https://espaceclient.prixtel.com/connexion');
-            const inputEmail_value = await page.evaluate(() => {
-                return Array.from(document.querySelectorAll("#inputEmail"),
-                    heading => heading.innerText.trim());
-            });
-            if (inputEmail_value != '') {
-                return page;
-            }
-            if (!inputEmail_value) {
-                console.log('error with api, #inputEmail is nothing')
-            }
+            await page.close();
+            sleep(5000);
+        }
+        page = await (await this.browser).newPage();
+        await page.goto('https://espaceclient.prixtel.com/connexion');
+        const inputEmail_value = await page.evaluate(() => {
+            return Array.from(document.querySelectorAll("#inputEmail"),
+                heading => heading.innerText.trim());
+        });
+        console.log(inputEmail_value);
+        if (inputEmail_value != '') {
+            return page;
+        }
+        if (!inputEmail_value) {
+            console.log('error with api, #inputEmail is nothing')
         }
         console.log('disconnected');
     }
