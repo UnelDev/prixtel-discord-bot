@@ -5,10 +5,12 @@ import * as dotenv from 'dotenv';
 import path from 'node:path';
 dotenv.config();
 export default {
+
     data: new SlashCommandBuilder()
         .setName('report')
         .setDescription('create a raport of consomation of unel'),
     async execute(interaction) {
+        interaction.deferReply();
         const waitImage = draw();
         const usage = await process.api.GetDataUsage();
         const exampleEmbed = new EmbedBuilder()
@@ -24,9 +26,9 @@ export default {
             .setTimestamp()
             .setFooter({ text: 'ces donée peut être perimé' });
         await waitImage;
-        if (waitImage == 'save') {
+        if (waitImage != 'no report data detected') {
             exampleEmbed.setImage('attachment://save.png');
-            await interaction.reply({
+            await interaction.editReply({
                 embeds: [exampleEmbed],
                 files: [{
                     attachment: path.resolve('./save/save.png'),
@@ -34,7 +36,7 @@ export default {
                 }]
             });
         } else {
-            await interaction.reply({
+            await interaction.editReply({
                 embeds: [exampleEmbed]
             });
         }

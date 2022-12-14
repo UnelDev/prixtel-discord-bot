@@ -50,7 +50,6 @@ export default class prixtelApi {
         if (!page || consumption_area_value == '') {
             page = await this.Connect(process.env.EMAIL, process.env.PASSWORD);
         } else {
-            console.log('refresh');
             await page.reload();
             await page.waitForSelector('.my-consumption-area');
         }
