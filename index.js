@@ -5,8 +5,6 @@ import alert from './commands/alert.js';
 import listAlert from './commands/listAlert.js';
 import ping from './commands/ping.js';
 import report from './commands/report.js';
-import server from './commands/server.js';
-import user from './commands/user.js';
 import deploy from './deploy.js';
 import prixtelApi from './prixtel-api/index.js';
 import Alert from './prixtel-api/sendAlert.js';
@@ -50,12 +48,10 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 const Listcommand = [
-    server,
-    user,
     ping,
     report,
-    alert,
-    listAlert
+    listAlert,
+    alert
 ]
 
 
