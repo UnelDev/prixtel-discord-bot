@@ -28,7 +28,7 @@ export default class prixtelApi {
             return Array.from(document.querySelectorAll("#inputEmail"),
                 heading => heading.innerText.trim());
         });
-        if (inputEmail_value == '' || inputEmail_value == []) {
+        if (inputEmail_value != '' || inputEmail_value == []) {
             return page;
         }
         if (!inputEmail_value) {

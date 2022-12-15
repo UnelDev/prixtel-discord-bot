@@ -17,9 +17,7 @@ export default {
                 { name: 'api Prixtel', value: (apiPing.RefreshTime + apiPing.connectTime).toString() + 'ms' },
                 { name: '\u200B   temps de connection', value: '\u200B  ' + apiPing.connectTime.toString() + 'ms' },
                 { name: '\u200B   temps de rafrechissement', value: '\u200B  ' + apiPing.RefreshTime.toString() + 'ms' },
-                {
-                    name: 'temps de calcul:', value: (envenLoop).toString() + ' ms'
-                },
+                { name: 'temps de calcul:', value: (envenLoop).toString() + ' ms' },
             );
 
 
