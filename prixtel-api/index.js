@@ -71,17 +71,16 @@ export default class prixtelApi {
         }
         const time1 = new Date();
         await this.Refresh(page);
-        const RefreshTime = time1 - new Date();
+        const RefreshTime = new Date() - time1;
         await this.disconnect(page);
         const time2 = new Date();
         await this.Connect(process.env.EMAIL, process.env.PASSWORD);
-        const connectTime = time2 - new Date();
+        const connectTime = new Date() - time2;
         return { RefreshTime: RefreshTime, connectTime: connectTime };
     }
     async disconnect(page) {
         if (page) {
             await page.close();
-            sleep(5000);
         }
         page = await (await this.browser).newPage();
         await page.goto('https://espaceclient.prixtel.com/connexion');
@@ -89,7 +88,6 @@ export default class prixtelApi {
             return Array.from(document.querySelectorAll("#inputEmail"),
                 heading => heading.innerText.trim());
         });
-        console.log(inputEmail_value);
         if (inputEmail_value != '') {
             return page;
         }
