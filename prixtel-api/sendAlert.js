@@ -128,9 +128,12 @@ class alertComp {
         setInterval(async () => {
             let newData = await process.api.GetDataConsumme();
             newData = newData.replace(' Go', '');
-            if (parseFloat(this.initial) + parseFloat(this.alert) <= newData) {
+            if (parseFloat(this.initial) > newData) {
+
+            }
+            else if (parseFloat(this.initial) + parseFloat(this.alert) <= newData) {
                 try {
-                    channel.send(this.PingRole + ' un palier vien d\'etre déclancher vous avez consomé plus de' + this.alert + 'Go depuis le ' + initialTime.toLocaleDateString('fr-FR'));
+                    await channel.send(this.PingRole + ' un palier vien d\'etre déclancher vous avez consomé plus de' + this.alert + 'Go depuis le ' + initialTime.toLocaleDateString('fr-FR'));
                 } catch (error) {
                     console.log('error in fetch sending: ' + error)
                 }
