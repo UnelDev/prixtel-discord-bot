@@ -38,8 +38,10 @@ client.on(Events.InteractionCreate, async interaction => {
     try {
         if (command.data.name == 'alert' || command.data.name == 'listalert') {
             await command.execute(interaction, alertClass);
+        } else if (command.data.name == 'ping') {
+            await command.execute(interaction, interaction.createdTimestamp, new Date(), client.ws.ping);
         } else {
-            await command.execute(interaction);
+            await command.execute(interaction, new Date());
         }
     } catch (error) {
         console.error(error);

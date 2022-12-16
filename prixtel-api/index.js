@@ -2,6 +2,9 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
 import * as dotenv from 'dotenv';
 dotenv.config();
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 export default class prixtelApi {
     browser;
     page;
@@ -20,11 +23,12 @@ export default class prixtelApi {
     async Connect(email, password) {
         const page = await (await this.browser).newPage();
         await page.goto('https://espaceclient.prixtel.com/connexion');
+        await page.waitForSelector('#inputEmail');
         const inputEmail_value = await page.evaluate(() => {
             return Array.from(document.querySelectorAll("#inputEmail"),
                 heading => heading.innerText.trim());
         });
-        if (inputEmail_value != '') {
+        if (inputEmail_value != '' || inputEmail_value == []) {
             return page;
         }
         if (!inputEmail_value) {
@@ -53,9 +57,45 @@ export default class prixtelApi {
             await page.reload();
             await page.waitForSelector('.my-consumption-area');
         }
+        this.page = page;
         return page;
     }
 
+    async ping(page) {
+        if (!page) {
+            if (this.page) {
+                page = this.page;
+            } else {
+                page = await this.Connect(process.env.EMAIL, process.env.PASSWORD);
+            }
+        }
+        const time1 = new Date();
+        await this.Refresh(page);
+        const RefreshTime = new Date() - time1;
+        await this.disconnect(page);
+        const time2 = new Date();
+        await this.Connect(process.env.EMAIL, process.env.PASSWORD);
+        const connectTime = new Date() - time2;
+        return { RefreshTime: RefreshTime, connectTime: connectTime };
+    }
+    async disconnect(page) {
+        if (page) {
+            await page.close();
+        }
+        page = await (await this.browser).newPage();
+        await page.goto('https://espaceclient.prixtel.com/connexion');
+        const inputEmail_value = await page.evaluate(() => {
+            return Array.from(document.querySelectorAll("#inputEmail"),
+                heading => heading.innerText.trim());
+        });
+        if (inputEmail_value != '') {
+            return page;
+        }
+        if (!inputEmail_value) {
+            console.log('error with api, #inputEmail is nothing')
+        }
+        console.log('disconnected');
+    }
     async GetDataUsage(page) {
         if (!page) {
             if (this.page) {

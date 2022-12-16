@@ -9,22 +9,26 @@ export default {
     data: new SlashCommandBuilder()
         .setName('report')
         .setDescription('create a raport of consomation of unel'),
-    async execute(interaction) {
+    async execute(interaction, initalDate) {
         interaction.deferReply();
         const waitImage = draw();
         const usage = await process.api.GetDataUsage();
+        const dataConsumme = await process.api.GetDataConsumme(usage);
+        const smsSend = await process.api.GetsmsSend(usage);
+        const callTime = await process.api.GetCallTime(usage);
+        const actualPrice = await process.api.ActualPrice();
         const exampleEmbed = new EmbedBuilder()
             .setTitle('raport de consomation')
             .setDescription('prénsente les en cour de consomation du forfait de @unelDev')
             .addFields(
-                { name: 'internet:', value: await process.api.GetDataConsumme(usage), inline: true },
-                { name: 'sms', value: await process.api.GetsmsSend(usage), inline: true },
-                { name: 'appel', value: await process.api.GetCallTime(usage), inline: true },
-                { name: '\u200B', value: '\u200B' },
-                { name: 'total de', value: await process.api.ActualPrice() },
+                { name: 'internet', value: dataConsumme.toString(), inline: true },
+                { name: 'sms', value: smsSend.toString(), inline: true },
+                { name: 'appel', value: callTime.toString(), inline: true },
+                { name: '\u200B', value: '\u200B', inline: true },
+                { name: 'total de', value: actualPrice.toString(), inline: true },
             )
             .setTimestamp()
-            .setFooter({ text: 'ces donée peut être perimé' });
+            .setFooter({ text: 'ces donée peut être perimé • ' + (new Date() - initalDate).toString() });
         await waitImage;
         if (waitImage != 'no report data detected') {
             exampleEmbed.setImage('attachment://save.png');
