@@ -77,8 +77,12 @@ async function draw() {
                     labels: name,
                     datasets: [
                         {
-                            label: 'cosomation de donée',
-                            data: value
+                            backgroundColor: "rgba(255,159,64,0.5)",
+                            borderColor: "rgb(255,159,64)",
+                            pointRadius: 0,
+                            pointHitRadius: 5,
+                            label: 'consomation de donée',
+                            data: value,
                         }
                     ]
                 },
@@ -96,8 +100,7 @@ async function draw() {
                     }
                 }
             });
-            chart.setWidth(1161);
-            chart.setHeight(500);
+            chart.setWidth(1161).setHeight(500);
             const buf = await chart.toBinary();
 
             // verify if 'save' exist and create it if dosn't exist
