@@ -129,7 +129,12 @@ class alertComp {
             let newData = await process.api.GetDataConsumme();
             newData = newData.replace(' Go', '');
             if (parseFloat(this.initial) > newData) {
-
+                try {
+                    await channel.send(this.PingRole + ' votre  forfait a été réinitialiser vous avez consomée ' + newData);
+                } catch (error) {
+                    console.log('error in fetch sending: ' + error)
+                }
+                this.initial = newData;
             }
             else if (parseFloat(this.initial) + parseFloat(this.alert) <= newData) {
                 try {
