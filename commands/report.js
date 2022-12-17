@@ -60,8 +60,7 @@ async function draw() {
             const name = [];
             const value = [];
             listAlert.forEach(element => {
-                const date = new Date(element[0]);
-                name.push(date.getDate() + '/' + date.getDate());
+                name.push(new Date(element[0]).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }));
                 value.push(element[1]);
             });
             // chartjs is limited to 250 names and 250 values
@@ -96,7 +95,13 @@ async function draw() {
                                     }
                                 }
                             }
-                        ]
+                        ],
+                        xAxes: [{
+                            ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 20  // Afficher au maximum 8 labels
+                            }
+                        }]
                     }
                 }
             });
