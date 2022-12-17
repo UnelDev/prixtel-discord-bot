@@ -119,9 +119,14 @@ class alertComp {
 
         });
     }
+    removeSave() {
+        // use absolut path for 'save'
+        const saveDir = path.resolve('./save');
+        fs.renameSync(path.resolve(saveDir, 'saveData.json'), path.resolve(saveDir, 'saveData' + new Date().getMonth().toString() + '.json'));
+    }
     async fetch(create, remove) {
         const channel = await process.client.channels.cache.get(this.channelid);
-        if (typeof timer != 'number') {
+        if (typeof this.timer != 'number') {
             this.timer = 900000;
         }
         this.initial = this.initial.replace(' Go', '');
@@ -134,6 +139,8 @@ class alertComp {
                 } catch (error) {
                     console.log('error in fetch sending: ' + error)
                 }
+                this.removeSave();
+                this.saveData(new Date(), newData);
                 this.initial = newData;
             }
             else if (parseFloat(this.initial) + parseFloat(this.alert) <= newData) {
