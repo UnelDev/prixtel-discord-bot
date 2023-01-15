@@ -36,9 +36,9 @@ The .env file contains important information for the bot to function properly. I
 - remove_commands.js: allows you to remove all stored commands from Discord servers.
 
 ## Command List
-- /report: check the status of your package
-- /alert alert: number of gigas alert_channel: the channel in which alerts are sent ?role: role to ping when an alert is sent
-- /listAlert: lists all alerts currently being processed
-- /ping: allows you to know the status of different services
-- /remove_commands: removes all stored commands from Discord servers
+- /report: check the status of your phone plan
+- /alert : set up an alert for data usage. Usage: /alert alert:number_of_gigas alert_channel:channel_name ?role:role_to_ping
+- /listAlert: lists all active alerts
+- /ping: check the status of different services
+- /remove_commands: removes all stored commands from the Discord server
 - /deploy: deploys the commands passed to it as arguments
