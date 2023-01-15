@@ -1,5 +1,7 @@
 ## Prixtel-discord-bot
-Prixtel-discord-bot is a project that allows you to avoid using the Prixtel application, but to have the information directly from Discord. It has several commands, such as /report, /alert, /listAlert, and /ping.
+Prixtel-discord-bot is a Discord bot that allows users to access information about their Prixtel account directly from Discord. The bot provides a variety of commands that can be used to check the status of the user's account, set up alerts for data usage, view active alerts, and check the status of different services. 
+
+The bot is designed to make it easier for users to manage their Prixtel account without having to navigate through the Prixtel application. It also offers a more convenient way to stay informed about the status of the user's account, such as receiving alerts when data usage is nearing its limit.
 
 ## Getting Started
 To set up the bot, you will need to:
