@@ -17,7 +17,7 @@ export default {
         })
         .addRoleOption(option =>
             option.setName("role")
-                .setDescription("role qui sera ping, lors d'un raport")),
+                .setDescription("role qui sera ping, lors d'une alert")),
     async execute(interaction, alertClass) {
         let alertChanel;
         let alert;
